@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +31,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware('auth')->group(function () {
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/members', [UserController::class, 'index'])->name('members.index');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/organizations', [OrganizationController::class, 'index'])->name('organizations.index');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/switch_organization/{organization}', [OrganizationController::class, 'switch'])->name('organizations.switch');
+});
+
+
+
+require __DIR__ . '/auth.php';
